@@ -1,6 +1,7 @@
 import { initialProfile } from "@/lib/initial-profile"
 import { db } from "@/lib/db"
 import { redirect } from "next/navigation"
+import InitialModal from "@/components/custom/modals/initial-modals"
 
 export default async function Home() {
     const profile = await initialProfile()
@@ -25,6 +26,7 @@ export default async function Home() {
             <p className="font-extralight">{profile.name}</p>
             <p className="font-extralight">{profile.email}</p>
             <img src={`${profile.imageUrl}`} className="w-10 h-10 rounded-full hover:w-12 hover:h-12" />
+            <InitialModal />
         </main>
     )
 }
