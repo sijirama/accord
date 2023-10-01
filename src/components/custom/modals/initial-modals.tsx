@@ -20,14 +20,16 @@ import {
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
+import axios from "axios"
 import { useForm } from "react-hook-form"
 
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useEffect, useState } from "react"
+import { FileUpload } from "../fileUpload"
 
 const formSchema = z.object({
-    name: z.string().min(1, {
+    name: z.string().min(3, {
         message: "Server name is required"
     }),
     imageUrl: z.string().min(1, {
@@ -37,6 +39,14 @@ const formSchema = z.object({
 })
 
 export default function InitialModal() {
+
+    //const [isMounted, setIsMounted] = useState(false) // hydration error fix
+
+    // useEffect(() => {// hydration error fix
+    //     setIsMounted(true)
+    // }, [])
+
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -49,7 +59,17 @@ export default function InitialModal() {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values)
+        try {
+            await axios.post("/api/servers", values)
+            form.reset()
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+    // if (isMounted) {// hydration error fix
+    //     return null;
+    // }
 
     return (
         <Dialog open>
@@ -61,11 +81,23 @@ export default function InitialModal() {
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="">
-                        <div>
-                            <div>
-                                TODO: IMAGE UPLOAD
-                            </div>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 w-full ">
+                        <div className="space-y-5">
+                            <FormField
+                                control={form.control}
+                                name="imageUrl"
+                                render={({ field }) => (
+                                    <FormItem className="flex justify-center">
+                                        <FormControl className=" ">
+                                            <FileUpload
+                                                endpoint="serverImage"
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="name"
@@ -78,14 +110,18 @@ export default function InitialModal() {
                                             <Input
                                                 disabled={loading}
                                                 placeholder="Enter server name."
-                                                className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                                                className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
                                                 {...field}
                                             />
                                         </FormControl>
+                                        <FormMessage className="font-semibold text-red-500" />
                                     </FormItem>
                                 )}
                             ></FormField>
                         </div>
+                        <DialogFooter>
+                            <Button className="font-bold" variant="primary">Create</Button>
+                        </DialogFooter>
                     </form>
                 </Form>
             </DialogContent>
