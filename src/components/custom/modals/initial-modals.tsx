@@ -27,6 +27,7 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { FileUpload } from "../fileUpload"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
     name: z.string().min(3, {
@@ -46,6 +47,8 @@ export default function InitialModal() {
     //     setIsMounted(true)
     // }, [])
 
+    const router = useRouter()
+
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -62,6 +65,8 @@ export default function InitialModal() {
         try {
             await axios.post("/api/servers", values)
             form.reset()
+            router.refresh()
+            window.location.reload()
         } catch (error) {
             console.log(error)
         }
