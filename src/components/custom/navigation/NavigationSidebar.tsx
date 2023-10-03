@@ -1,23 +1,28 @@
-import { redirect } from 'next/navigation'
-import { currentProfile } from '@/lib/current-profile'
-import React from 'react'
-import { db } from '@/lib/db'
+import { redirect } from 'next/navigation';
+import { currentProfile } from '@/lib/current-profile';
+import React from 'react';
+import { db } from '@/lib/db';
+import { NavigationAction } from './NavigationAction';
 
 export default async function NavigationSidebar() {
-    const profile = await currentProfile()
+    const profile = await currentProfile();
+
     if (!profile) {
-        redirect("/")
+        redirect('/');
     }
+
     const servers = await db.server.findMany({
         where: {
             members: {
                 some: {
-                    profileId: profile.id
-                }
-            }
-        }
-    })
+                    profileId: profile.id,
+                },
+            },
+        },
+    });
     return (
-        <div className='space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-slate-900 py-3'>NavigationSidebar</div>
-    )
+        <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-slate-900 py-3">
+            <NavigationAction />
+        </div>
+    );
 }
