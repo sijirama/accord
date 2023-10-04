@@ -30,7 +30,7 @@ export default async function NavigationSidebar() {
         <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-slate-800 py-3">
             <NavigationAction />
             <Separator className="h-[2px] bg-slate-800 dark:bg-slate-500 rounded-md w-12 mx-auto" />
-            <ScrollArea className='flex-1 w-full'>
+            <ScrollArea className='flex-1 w-full '>
                 {servers.map(server => (
                     <NavigationItem
                         id={server.id}

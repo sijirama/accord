@@ -28,10 +28,11 @@ function NavigationItem({
             label={name}
             side="right"
             align="center"
+            
         >
             <button
                 onClick={onClick}
-                className="group relative flex items-center"
+                className="group relative flex items-center py-2"
             >
                 <div
                     className={cn(
