@@ -36,6 +36,7 @@ async function ServerSidebar({ serverId }: Props) {
         },
     });
 
+
     if (!server) {
         return redirect('/');
     }
@@ -58,7 +59,7 @@ async function ServerSidebar({ serverId }: Props) {
 
     return (
         <nav className="flex flex-col w-full h-full text-primary dark:bg-slate-900 bg-slate-400">
-            <ServerHeader />
+            <ServerHeader server={server} role={role} />
         </nav>
     );
 }
