@@ -4,12 +4,16 @@ import { MemberRole } from '@prisma/client';
 
 function ServerHeader({
     server,
-    role
+    role,
 }: {
     server: ServerWithMemberWithProfiles;
-    role?:MemberRole
+    role?: MemberRole;
 }) {
-    return <div>ServerHeader</div>;
+    return (
+        <div>
+            <p>{server.name}</p>
+        </div>
+    );
 }
 
 export default ServerHeader;
