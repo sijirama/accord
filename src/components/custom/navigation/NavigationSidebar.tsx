@@ -33,6 +33,7 @@ export default async function NavigationSidebar() {
             <ScrollArea className='flex-1 w-full '>
                 {servers.map(server => (
                     <NavigationItem
+                        key={server.id}
                         id={server.id}
                         imageUrl={server.imageurl}
                         name={server.name}
