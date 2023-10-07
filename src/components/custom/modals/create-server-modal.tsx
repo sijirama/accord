@@ -54,7 +54,8 @@ export default function CreateServerModal() {
 
     const loading = form.formState.isSubmitting; // while the form is submitting
 
-    const onSubmit = async ( // what happens when we submit our create server form
+    const onSubmit = async (
+        // what happens when we submit our create server form
         values: z.infer<typeof formSchema>
     ) => {
         console.log(values);
@@ -62,19 +63,23 @@ export default function CreateServerModal() {
             await axios.post('/api/servers', values);
             form.reset();
             router.refresh();
-            onClose()
+            onClose();
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleClose = () => { // what happens when the modal closes
-        form.reset()
-        onClose()
-    }
+    const handleClose = () => {
+        // what happens when the modal closes
+        form.reset();
+        onClose();
+    };
 
     return (
-        <Dialog open={isModalOpen} onOpenChange={handleClose}>
+        <Dialog
+            open={isModalOpen}
+            onOpenChange={handleClose}
+        >
             <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
                     <DialogTitle>

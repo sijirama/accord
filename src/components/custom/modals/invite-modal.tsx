@@ -10,17 +10,33 @@ import { useModal } from '@/hooks/use-modal-store';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Copy, RefreshCcw } from 'lucide-react';
+import { Check, Copy, RefreshCcw } from 'lucide-react';
 import { useOrigin } from '@/hooks/use-origin';
 import { useState } from 'react';
+import { toast } from '@/components/ui/use-toast';
 
 export default function InviteModal() {
     const { isOpen, onClose, type, data } = useModal(); // hook to handle modal management with zustand
     const isModalOpen = isOpen && type === 'invite'; // is it open ? is to create a server ?
+
     const origin = useOrigin();
     const { server } = data;
     const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
+
     const [copied, setCopied] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const onCopy = () => {
+        navigator.clipboard.writeText(inviteUrl);
+        setCopied(true);
+        toast({
+            description:
+                'Invite has been copied to clipboard',
+        });
+        setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    };
 
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -45,8 +61,8 @@ export default function InviteModal() {
                             focus-visible:ring-offset-0"
                             value={inviteUrl}
                         />
-                        <Button>
-                            <Copy />
+                        <Button onClick={onCopy}>
+                            {copied ? <Check /> : <Copy />}
                         </Button>
                     </div>
                     <Button
