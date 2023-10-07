@@ -35,7 +35,7 @@ export default async function ServerIdLayout({
     }
     return (
         <main className="h-full flex">
-            <section className="hidden bg-red-700 md:flex w-56 hover:w-60 transition-all z-20 flex-col inset-y-0">
+            <section className="hidden  md:flex w-60 transition-all z-20 flex-col inset-y-0">
                 <ServerSidebar serverId = {params.serverId} />
             </section>
             <section className="h-full flex-1 bg-slate-800">
