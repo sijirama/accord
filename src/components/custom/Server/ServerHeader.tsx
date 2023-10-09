@@ -28,15 +28,11 @@ function ServerHeader({
 }) {
     const { onOpen } = useModal();
     const isAdmin = role === MemberRole.ADMIN;
-    const isModerator =
-        isAdmin || role === MemberRole.MODERTOR;
+    const isModerator = isAdmin || role === MemberRole.MODERTOR;
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger
-                className="focus:outline-none"
-                asChild
-            >
+            <DropdownMenuTrigger className="focus:outline-none" asChild>
                 <button className="w-full text-sm font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-1 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition ">
                     {server.name}
                     <ChevronDown className="h-5 w-5 ml-auto" />
@@ -46,9 +42,7 @@ function ServerHeader({
                 {isModerator && (
                     <DropdownMenuItem
                         className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
-                        onClick={() =>
-                            onOpen('invite', { server })
-                        }
+                        onClick={() => onOpen('invite', { server })}
                     >
                         Invite Incels
                         <UserPlus className="h-4 w-4 ml-auto" />
@@ -68,7 +62,14 @@ function ServerHeader({
                     </DropdownMenuItem>
                 )}
                 {isAdmin && (
-                    <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer">
+                    <DropdownMenuItem
+                        className="px-3 py-2 text-sm cursor-pointer"
+                        onClick={() => {
+                            onOpen('members', {
+                                server,
+                            });
+                        }}
+                    >
                         Manage Members
                         <Users className="h-4 w-4 ml-auto" />
                     </DropdownMenuItem>
