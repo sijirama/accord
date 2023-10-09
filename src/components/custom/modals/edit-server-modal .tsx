@@ -68,10 +68,7 @@ export default function EditServerModal() {
     ) => {
         console.log(values);
         try {
-            await axios.patch(
-                `/api/servers/${server?.id}`,
-                values
-            );
+            await axios.patch(`/api/servers/${server?.id}`, values);
             form.reset();
             router.refresh();
             onClose();
@@ -87,26 +84,18 @@ export default function EditServerModal() {
     };
 
     return (
-        <Dialog
-            open={isModalOpen}
-            onOpenChange={handleClose}
-        >
+        <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
-                    <DialogTitle>
-                        Edit your server Anon!
-                    </DialogTitle>
+                    <DialogTitle>Edit your server Anon!</DialogTitle>
                     <DialogDescription>
-                        Oh Anon, you are fool for not liking
-                        what you initially saved, but you
-                        have been forgiven.
+                        Oh Anon, you are fool for not liking what you initially
+                        saved, but you have been forgiven.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form
-                        onSubmit={form.handleSubmit(
-                            onSubmit
-                        )}
+                        onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-5 w-full "
                     >
                         <div className="space-y-5">
@@ -118,12 +107,8 @@ export default function EditServerModal() {
                                         <FormControl className=" ">
                                             <FileUpload
                                                 endpoint="serverImage"
-                                                value={
-                                                    field.value
-                                                }
-                                                onChange={
-                                                    field.onChange
-                                                }
+                                                value={field.value}
+                                                onChange={field.onChange}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -139,9 +124,7 @@ export default function EditServerModal() {
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                disabled={
-                                                    loading
-                                                }
+                                                disabled={loading}
                                                 placeholder="Enter server name."
                                                 className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
                                                 {...field}
@@ -153,10 +136,7 @@ export default function EditServerModal() {
                             ></FormField>
                         </div>
                         <DialogFooter>
-                            <Button
-                                className="font-bold"
-                                variant="primary"
-                            >
+                            <Button className="font-bold" variant="primary">
                                 Save
                             </Button>
                         </DialogFooter>

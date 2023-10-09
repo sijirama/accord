@@ -28,6 +28,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FileUpload } from '../fileUpload';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/use-modal-store';
+import { toast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
     name: z.string().min(3, {
@@ -60,6 +61,12 @@ export default function CreateServerModal() {
     ) => {
         console.log(values);
         try {
+            if (!values.name || !values.imageUrl) {
+                toast({
+                    description: 'Something is missging from your input.',
+                });
+                return;
+            }
             await axios.post('/api/servers', values);
             form.reset();
             router.refresh();
@@ -76,26 +83,18 @@ export default function CreateServerModal() {
     };
 
     return (
-        <Dialog
-            open={isModalOpen}
-            onOpenChange={handleClose}
-        >
+        <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
-                    <DialogTitle>
-                        Customize your server Anon!
-                    </DialogTitle>
+                    <DialogTitle>Customize your server Anon!</DialogTitle>
                     <DialogDescription>
-                        Give your server a personality with
-                        a name and an image, you can always
-                        change it later.
+                        Give your server a personality with a name and an image,
+                        you can always change it later.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form
-                        onSubmit={form.handleSubmit(
-                            onSubmit
-                        )}
+                        onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-5 w-full "
                     >
                         <div className="space-y-5">
@@ -107,12 +106,8 @@ export default function CreateServerModal() {
                                         <FormControl className=" ">
                                             <FileUpload
                                                 endpoint="serverImage"
-                                                value={
-                                                    field.value
-                                                }
-                                                onChange={
-                                                    field.onChange
-                                                }
+                                                value={field.value}
+                                                onChange={field.onChange}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -128,9 +123,7 @@ export default function CreateServerModal() {
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                disabled={
-                                                    loading
-                                                }
+                                                disabled={loading}
                                                 placeholder="Enter server name."
                                                 className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
                                                 {...field}
@@ -142,10 +135,7 @@ export default function CreateServerModal() {
                             ></FormField>
                         </div>
                         <DialogFooter>
-                            <Button
-                                className="font-bold"
-                                variant="primary"
-                            >
+                            <Button className="font-bold" variant="primary">
                                 Create
                             </Button>
                         </DialogFooter>
