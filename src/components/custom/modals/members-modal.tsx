@@ -59,7 +59,6 @@ export default function MemberModal() {
                 url: `/api/members/${memberId}`,
                 query: {
                     serverId: server.id,
-                    memberId,
                 },
             });
             const response = await axios.patch(url, { role });
