@@ -41,7 +41,7 @@ import { useRouter } from 'next/navigation';
 
 const roleIconMap = {
     GUEST: null,
-    MODERTOR: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
+    MODERATOR: <ShieldCheck className="h-5 w-5 ml-2 text-indigo-700" />,
     ADMIN: <ShieldAlert className="h-5 w-5 ml-2  text-rose-700" />,
 };
 
@@ -51,6 +51,25 @@ export default function MemberModal() {
     const { server } = data as { server: ServerWithMemberWithProfiles };
     const router = useRouter();
     const [loadingId, setLoadingId] = useState('');
+
+    const onKick = async (memberId: string) => {
+        try {
+            setLoadingId(memberId);
+            const url = qs.stringifyUrl({
+                url: `/api/members/${memberId}`,
+                query: {
+                    serverId: server.id,
+                },
+            });
+            const response = await axios.delete(url);
+            router.refresh();
+            onOpen('members', { server: response.data });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoadingId('');
+        }
+    };
 
     const onRoleChange = async (memberId: string, role: MemberRole) => {
         try {
@@ -135,21 +154,25 @@ export default function MemberModal() {
                                                                 onClick={() =>
                                                                     onRoleChange(
                                                                         member.id,
-                                                                        'MODERTOR'
+                                                                        'MODERATOR'
                                                                     )
                                                                 }
                                                             >
                                                                 <ShieldCheck className="w-4 h-4 mr-2" />
                                                                 Moderator
                                                                 {member.role ===
-                                                                    'MODERTOR' && (
+                                                                    'MODERATOR' && (
                                                                     <Check className="h-4 w-4 ml-auto" />
                                                                 )}
                                                             </DropdownMenuItem>
                                                         </DropdownMenuSubContent>
                                                     </DropdownMenuSub>
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            onKick(member.id)
+                                                        }
+                                                    >
                                                         <Gavel className="w-4 h-4 mr-2" />
                                                         Kick
                                                     </DropdownMenuItem>
