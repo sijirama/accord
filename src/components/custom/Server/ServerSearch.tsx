@@ -14,7 +14,7 @@ import * as React from 'react';
 interface ServerSearchProps {
     data: {
         label: string;
-        type: 'channel' | 'mmeber';
+        type: 'channel' | 'member';
         data:
             | {
                   icon: React.ReactNode;
@@ -28,7 +28,8 @@ interface ServerSearchProps {
 function ServerSearch({ data }: ServerSearchProps) {
     const [open, setOpen] = React.useState(false);
     const router = useRouter();
-    const pramas = useParams();
+    const params = useParams();
+
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
             if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
@@ -39,6 +40,24 @@ function ServerSearch({ data }: ServerSearchProps) {
         document.addEventListener('keydown', down);
         return () => document.removeEventListener('keydown', down);
     }, []);
+
+    const onClick = ({
+        id,
+        type,
+    }: {
+        id: string;
+        type: 'channel' | 'member';
+    }) => {
+        setOpen(false);
+        if (type === 'member') {
+            return router.push(
+                `/servers/${params.serverId}/conversations/${id}`
+            );
+        }
+        if (type === 'channel') {
+            return router.push(`/servers/${params.serverId}/channels/${id}`);
+        }
+    };
     return (
         <>
             <button
@@ -73,7 +92,10 @@ function ServerSearch({ data }: ServerSearchProps) {
                         <CommandGroup key={label} heading={label}>
                             {data.map(({ id, icon, name }) => {
                                 return (
-                                    <CommandItem key={id}>
+                                    <CommandItem
+                                        key={id}
+                                        onSelect={() => onClick({ id, type })}
+                                    >
                                         {icon}
                                         <span>{name}</span>
                                     </CommandItem>

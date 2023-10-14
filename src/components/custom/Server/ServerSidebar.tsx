@@ -8,6 +8,9 @@ import ServerHeader from './ServerHeader';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import ServerSearch from './ServerSearch';
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import ServerSection from './ServerSection';
+import ServerChannel from './ServerChannel';
 
 interface Props {
     serverId: string;
@@ -74,6 +77,7 @@ async function ServerSidebar({ serverId }: Props) {
     const role = server.members.find(member => member.profileId === profile.id)
         ?.role;
 
+    //<ServerSecrion />
     return (
         <nav className="flex flex-col w-full h-full text-primary dark:bg-slate-900 bg-slate-400">
             <ServerHeader server={server} role={role} />
@@ -110,7 +114,7 @@ async function ServerSidebar({ serverId }: Props) {
                             },
                             {
                                 label: 'Members',
-                                type: 'mmeber',
+                                type: 'member',
                                 data: members.map(member => ({
                                     id: member.id,
                                     name: member.profile.name,
@@ -120,6 +124,26 @@ async function ServerSidebar({ serverId }: Props) {
                         ]}
                     />
                 </div>
+                <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+                {!!textChannels.length && (
+                    <div className="mb-2">
+                        <ServerSection
+                            sectionType="channels"
+                            channelType={ChannelType.TEXT}
+                            role={role}
+                            label="Text Channels"
+                            server={server}
+                        />
+                        {textChannels.map(channel => (
+                            <ServerChannel
+                                key={channel.id}
+                                channel={channel}
+                                role={role}
+                                server={server}
+                            />
+                        ))}
+                    </div>
+                )}
             </ScrollArea>
         </nav>
     );
