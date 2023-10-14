@@ -39,6 +39,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/use-modal-store';
 import { toast } from '@/components/ui/use-toast';
 import { ChannelType } from '@prisma/client';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
     name: z
@@ -53,19 +54,28 @@ const formSchema = z.object({
 });
 
 export default function CreateChannelModal() {
-    const { isOpen, onClose, type } = useModal(); // hook to handle modal management with zustand
+    const { isOpen, onClose, type, data } = useModal(); // hook to handle modal management with zustand
     const isModalOpen = isOpen && type === 'createChannel'; // is it open ? is to create a server ?
 
     const router = useRouter(); // initialize router
     const params = useParams();
+    const { channelType } = data;
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
-            type: ChannelType.TEXT,
+            type: channelType || ChannelType.TEXT,
         },
     });
+
+    useEffect(() => {
+        if (channelType) {
+            form.setValue('type', channelType);
+        } else {
+            form.setValue('type', ChannelType.TEXT);
+        }
+    }, [channelType, form]);
 
     const loading = form.formState.isSubmitting; // while the form is submitting
 

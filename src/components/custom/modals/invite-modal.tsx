@@ -17,8 +17,7 @@ import { toast } from '@/components/ui/use-toast';
 import axios from 'axios';
 
 export default function InviteModal() {
-    const { isOpen, onClose, type, data, onOpen } =
-        useModal(); // hook to handle modal management with zustand
+    const { isOpen, onClose, type, data, onOpen } = useModal(); // hook to handle modal management with zustand
     const isModalOpen = isOpen && type === 'invite'; // is it open ? is to create a server ?
 
     const origin = useOrigin();
@@ -32,8 +31,7 @@ export default function InviteModal() {
         navigator.clipboard.writeText(inviteUrl);
         setCopied(true);
         toast({
-            description:
-                'Invite has been copied to clipboard',
+            description: 'Invite has been copied to clipboard',
         });
         setTimeout(() => {
             setCopied(false);
@@ -47,15 +45,11 @@ export default function InviteModal() {
                 `/api/servers/${server?.id}/invite-code`
             );
             toast({
-                description:
-                    'New server invite has been created Anon.',
+                description: 'New server invite has been created Anon.',
             });
             onOpen('invite', { server: response.data });
         } catch (error) {
-            console.log(
-                error,
-                ': Error caught on onNew hook in invite modal.'
-            );
+            console.log(error, ': Error caught on onNew hook in invite modal.');
         } finally {
             setLoading(false);
         }
@@ -67,10 +61,8 @@ export default function InviteModal() {
                 <DialogHeader>
                     <DialogTitle>Invite Incels</DialogTitle>
                     <DialogDescription>
-                        Oh Anon, your server is completely
-                        useless until you have some people
-                        in it, Rise up and send some
-                        invites!
+                        Oh Anon, your server is completely useless until you
+                        have some people in it, Rise up and send some invites!
                     </DialogDescription>
                 </DialogHeader>
                 <div>
@@ -86,10 +78,7 @@ export default function InviteModal() {
                             focus-visible:ring-offset-0"
                             value={inviteUrl}
                         />
-                        <Button
-                            onClick={onCopy}
-                            disabled={loading}
-                        >
+                        <Button onClick={onCopy} disabled={loading}>
                             {copied ? <Check /> : <Copy />}
                         </Button>
                     </div>
