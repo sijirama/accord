@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import qs from 'query-string';
 
 export default function DeleteChannelModal() {
@@ -26,15 +26,15 @@ export default function DeleteChannelModal() {
         try {
             setLoading(true);
             const url = qs.stringifyUrl({
-                url: `api/channels/${channel?.id}`,
+                url: `/api/channels/${channel?.id}`,
                 query: {
                     serverId: server?.id,
                 },
             });
             await axios.delete(url);
-            onClose();
             router.refresh();
-            router.push(`/servers/${server?.id}`);
+            onClose();
+            //router.push(`/server/${server?.id}`);
         } catch (error) {
             console.log(error);
         } finally {

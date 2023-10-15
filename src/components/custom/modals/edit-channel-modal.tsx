@@ -82,7 +82,6 @@ export default function EditChannelModal() {
         // what happens when we submit our edit channel form
         values: z.infer<typeof formSchema>
     ) => {
-        console.log(values);
         try {
             if (!values.name) {
                 toast({

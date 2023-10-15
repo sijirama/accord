@@ -7,6 +7,7 @@ export async function DELETE(
     req: Request,
     { params }: { params: { channelId: string } }
 ) {
+    console.log('Server Issue!!');
     try {
         const profile = await currentProfile();
         const { searchParams } = new URL(req.url);
@@ -30,7 +31,7 @@ export async function DELETE(
                 id: serverId,
                 members: {
                     some: {
-                        id: profile.id,
+                        profileId: profile.id,
                         role: {
                             in: [MemberRole.ADMIN, MemberRole.MODERATOR],
                         },
@@ -60,7 +61,6 @@ export async function PATCH(
     req: Request,
     { params }: { params: { channelId: string } }
 ) {
-    console.log('Almost there');
     try {
         const profile = await currentProfile();
         const { name, type } = await req.json();
@@ -84,7 +84,6 @@ export async function PATCH(
             return new NextResponse('Name cannot be general', { status: 400 });
         }
 
-        console.log('Almost there soon');
         const server = await db.server.update({
             where: {
                 id: serverId,
