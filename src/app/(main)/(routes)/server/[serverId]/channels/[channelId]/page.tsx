@@ -1,3 +1,4 @@
+import ChatHeader from '@/components/custom/chat/ChatHeader';
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
 import { redirectToSignIn } from '@clerk/nextjs';
@@ -35,7 +36,9 @@ async function page({ params }: ChannelIdPageProps) {
     }
 
     return (
-        <div className="bg-white dark:bg-[#313338] flex flex-col h-full"></div>
+        <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
+            <ChatHeader />
+        </div>
     );
 }
 
