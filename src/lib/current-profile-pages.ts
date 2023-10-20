@@ -4,7 +4,7 @@ import { db } from './db';
 import { toast } from '@/components/ui/use-toast';
 import { NextApiRequest } from 'next';
 
-export const currentProfile = async (req: NextApiRequest) => {
+export const currentProfilePages = async (req: NextApiRequest) => {
     const { userId } = getAuth(req);
     if (!userId) {
         return null;
