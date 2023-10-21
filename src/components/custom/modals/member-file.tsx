@@ -9,64 +9,55 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
-
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import qs from 'query-string';
 import axios from 'axios';
+import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
 import { FileUpload } from '../fileUpload';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/use-modal-store';
 
 const formSchema = z.object({
-    name: z.string().min(3, {
-        message: 'Server name is required',
-    }),
-    imageUrl: z.string().min(1, {
+    fileUrl: z.string().min(1, {
         message: 'Server name is required',
     }),
 });
 
 export default function MemberFIleModal() {
     const { isOpen, onClose, type, data } = useModal();
+    const { apiUrl, query } = data;
     const router = useRouter();
-
     const isModalOpen = isOpen && type === 'messageFile';
-
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: 'Octavius The Server',
-            imageUrl: ' ',
+            fileUrl: ' ',
         },
     });
 
     const loading = form.formState.isSubmitting;
-
     const handleClose = () => {
-        form.reset()
-        onClose()
-    }
+        form.reset();
+        onClose();
+    };
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values);
         try {
-            await axios.post('/api/servers', values);
+            const url = qs.stringifyUrl({
+                url: apiUrl || '',
+                query,
+            });
+            await axios.post(url, {
+                ...values,
+                content: values.fileUrl,
+            });
             form.reset();
             router.refresh();
-            window.location.reload();
+            handleClose();
         } catch (error) {
             console.log(error);
         }
@@ -76,10 +67,9 @@ export default function MemberFIleModal() {
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
-                    <DialogTitle>Customize your server Anon!</DialogTitle>
+                    <DialogTitle>Add an attachment!</DialogTitle>
                     <DialogDescription>
-                        Give your server a personality with a name and an image,
-                        you can always change it later.
+                        Send a file as a message
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -90,12 +80,12 @@ export default function MemberFIleModal() {
                         <div className="space-y-5">
                             <FormField
                                 control={form.control}
-                                name="imageUrl"
+                                name="fileUrl"
                                 render={({ field }) => (
                                     <FormItem className="flex justify-center">
                                         <FormControl className=" ">
                                             <FileUpload
-                                                endpoint="serverImage"
+                                                endpoint="messageFile"
                                                 value={field.value}
                                                 onChange={field.onChange}
                                             />
@@ -103,30 +93,10 @@ export default function MemberFIleModal() {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="uppercase text-xs font-bold text-slate-700 dark:text-slate-100">
-                                            Server name
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                disabled={loading}
-                                                placeholder="Enter server name."
-                                                className="bg-zinc-300/10 border-0 focus-visible:ring-0 text-black dark:text-slate-200 font-semibold focus-visible:ring-offset-0"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="font-semibold text-red-500" />
-                                    </FormItem>
-                                )}
-                            ></FormField>
                         </div>
                         <DialogFooter>
                             <Button className="font-bold" variant="primary">
-                                Create
+                                Send
                             </Button>
                         </DialogFooter>
                     </form>
