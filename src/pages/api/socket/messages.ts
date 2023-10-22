@@ -70,7 +70,7 @@ export default async function handler(
             return res.status(404).json({ message: 'Member not found' });
         }
 
-        const message = db.message.create({
+        const message = await db.message.create({
             data: {
                 content,
                 fileUrl,
