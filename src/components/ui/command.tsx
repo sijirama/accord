@@ -123,7 +123,7 @@ const CommandItem = React.forwardRef<
             'relative flex cursor-default select-none items-center rounded-r-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
             className,
             // stylings siji added himself
-            `aria-selected:border aria-selected:border-l-slate-900 dark:aria-selected:border-l-slate-300 aria-selected:border-l-[3px]`
+            `aria-selected:border aria-selected:border-l-slate-900 dark:aria-selected:border-l-slate-400 aria-selected:border-l-[3px]`
         )}
         {...props}
     />
