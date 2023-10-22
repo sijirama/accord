@@ -135,7 +135,11 @@ export default function CreateServerModal() {
                             ></FormField>
                         </div>
                         <DialogFooter>
-                            <Button className="font-bold" variant="primary">
+                            <Button
+                                className="font-bold"
+                                variant="primary"
+                                disabled={loading}
+                            >
                                 Create
                             </Button>
                         </DialogFooter>
