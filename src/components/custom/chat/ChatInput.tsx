@@ -7,9 +7,10 @@ import axios from 'axios';
 import qs from 'query-string';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Plus, Smile } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useModal } from '@/hooks/use-modal-store';
 import EmojiPicker from '../EmojiPicker';
+import { useRouter } from 'next/navigation';
 
 interface ChatInputProps {
     apiUrl: string;
@@ -32,6 +33,7 @@ function ChatInput({ apiUrl, query, name, type }: ChatInputProps) {
 
     const { onOpen } = useModal();
     const isLoading = form.formState.isSubmitting;
+    const router = useRouter();
     const onSubmit = async (values: z.infer<typeof formShema>) => {
         try {
             const url = qs.stringifyUrl({
@@ -40,6 +42,7 @@ function ChatInput({ apiUrl, query, name, type }: ChatInputProps) {
             });
             await axios.post(url, values);
             form.reset();
+            router.refresh();
         } catch (error) {
             console.log(error);
         }
