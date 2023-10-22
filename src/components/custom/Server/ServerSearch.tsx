@@ -80,7 +80,7 @@ function ServerSearch({ data }: ServerSearchProps) {
                 </kbd>
             </button>
 
-            <CommandDialog open={open} onOpenChange={setOpen}>
+            <CommandDialog open={open} onOpenChange={setOpen} >
                 <CommandInput placeholder="Search all channels and members" />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
