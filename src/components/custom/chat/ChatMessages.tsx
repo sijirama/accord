@@ -1,9 +1,12 @@
 'use client';
 
-import { Member } from '@prisma/client';
+import { Member, Message, Profile } from '@prisma/client';
 import ChatWelcome from './ChatWelcome';
 import { useChatQuery } from '@/hooks/use-chat-query';
 import { Loader2, ServerCrash } from 'lucide-react';
+import { Fragment } from 'react';
+import ChatItem from './ChatItem';
+import { format } from 'date-fns';
 
 interface ChatMessagesProps {
     name: string;
@@ -16,6 +19,14 @@ interface ChatMessagesProps {
     paramValue: string;
     type: 'channel' | 'conversation';
 }
+
+export type MessagewithMemberProfile = Message & {
+    member: Member & {
+        profile: Profile;
+    };
+};
+
+const dateFormat = 'd MMM yyy, HH:mm';
 
 function ChatMessages({
     name,
@@ -62,6 +73,34 @@ function ChatMessages({
         <div className="flex-1 flex flex-col py-4 overflow-y-auto">
             <div className="flex-1 " />
             <ChatWelcome type={type} name={name} />
+            <div className="flex flex-col-reverse mt-auto">
+                {data?.pages?.map((group, i) => (
+                    <Fragment key={i}>
+                        {group.items.map(
+                            (message: MessagewithMemberProfile) => (
+                                <ChatItem
+                                    key={message.id}
+                                    id={message.id}
+                                    currentMember={member}
+                                    content={message.content}
+                                    fileUrl={message.fileUrl}
+                                    deleted={message.deleted}
+                                    timestamp={format(
+                                        new Date(message.createdAt),
+                                        dateFormat
+                                    )}
+                                    isUpdated={
+                                        message.updatedAt !== message.createdAt
+                                    }
+                                    socketUrl={sockerUrl}
+                                    socketQuery={sockerQuery}
+                                    member={message.member}
+                                />
+                            )
+                        )}
+                    </Fragment>
+                ))}
+            </div>
         </div>
     );
 }

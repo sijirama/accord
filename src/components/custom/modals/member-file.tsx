@@ -95,7 +95,7 @@ export default function MemberFIleModal() {
                             />
                         </div>
                         <DialogFooter>
-                            <Button className="font-bold" variant="primary">
+                            <Button className="font-bold" variant="primary" disabled={loading}>
                                 Send
                             </Button>
                         </DialogFooter>
