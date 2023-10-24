@@ -14,6 +14,7 @@ import qs from 'query-string';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     id: string;
@@ -75,6 +76,10 @@ function ChatItem({
             content: content,
         });
     }, [content]);
+
+    const onSubmit = (values: any) => {
+        console.log(values);
+    };
 
     return (
         <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full ">
@@ -139,6 +144,34 @@ function ChatItem({
                                 </span>
                             )}
                         </p>
+                    )}
+                    {!fileUrl && !isEditing && (
+                        <Form {...form}>
+                            <form
+                                className="flex items-center w-full gap-x-2 pt-2"
+                                onSubmit={form.handleSubmit(onSubmit)}
+                            >
+                                <FormField
+                                    control={form.control}
+                                    name="content"
+                                    render={({ field }) => (
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <div className="relative w-full ">
+                                                    <Input
+                                                        className="p-2 bg-zinc-900/20 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0
+                                                        focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 
+                                                    "
+                                                        placeholder="Edited Message"
+                                                        {...field}
+                                                    />
+                                                </div>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </form>
+                        </Form>
                     )}
                 </div>
             </div>
