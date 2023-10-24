@@ -72,13 +72,35 @@ function ChatItem({
     });
 
     useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setIsEditing(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    useEffect(() => {
         form.reset({
             content: content,
         });
     }, [content]);
 
-    const onSubmit = (values: any) => {
-        console.log(values);
+    const isLoading = form.formState.isLoading;
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const url = qs.stringifyUrl({
+                url: `${socketUrl}/${id}`,
+                query: socketQuery,
+            });
+            await axios.patch(url, values);
+            setIsEditing(false);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -145,7 +167,7 @@ function ChatItem({
                             )}
                         </p>
                     )}
-                    {!fileUrl && !isEditing && (
+                    {!fileUrl && isEditing && (
                         <Form {...form}>
                             <form
                                 className="flex items-center w-full gap-x-2 pt-2"
@@ -159,6 +181,7 @@ function ChatItem({
                                             <FormControl>
                                                 <div className="relative w-full ">
                                                     <Input
+                                                        disabled={isLoading}
                                                         className="p-2 bg-zinc-900/20 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0
                                                         focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200 
                                                     "
@@ -170,14 +193,25 @@ function ChatItem({
                                         </FormItem>
                                     )}
                                 />
+                                <Button
+                                    size="sm"
+                                    variant="primary"
+                                    className="bg-indigo-600"
+                                    disabled={isLoading}
+                                >
+                                    Save
+                                </Button>
                             </form>
+                            <span className="text-[11px] mt-1 text-zinc-400">
+                                Press escape to cancel, enter to save.
+                            </span>
                         </Form>
                     )}
                 </div>
             </div>
-            {canDeleteMessage && (
+            {canDeleteMessage && !isEditing && (
                 <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 =top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
-                    {canEditMessage && (
+                    {canEditMessage && !isEditing && (
                         <ActionTooltip label="Edit">
                             <Edit
                                 onClick={() => setIsEditing(true)}
