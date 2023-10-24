@@ -12,6 +12,7 @@ export type ModalType =
     | 'deleteChannel'
     | 'editChannel'
     | 'messageFile'
+    | 'deleteMessage'
     | 'deleteServer';
 
 interface ModalData {
@@ -20,6 +21,7 @@ interface ModalData {
     channelType?: ChannelType;
     apiUrl?: string;
     query?: Record<string, any>;
+    content?: string;
 }
 interface ModalStore {
     type: ModalType | null;
@@ -39,4 +41,5 @@ export const useModal = create<ModalStore>(set => ({
     onClose() {
         set({ isOpen: false, type: null });
     },
+    
 }));
