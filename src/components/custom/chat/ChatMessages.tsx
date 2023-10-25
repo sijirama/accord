@@ -8,6 +8,7 @@ import { Fragment, useRef, ElementRef } from 'react';
 import ChatItem from './ChatItem';
 import { format } from 'date-fns';
 import { useChatSocket } from '@/hooks/use-chat-socket';
+import { useChatScroll } from '@/hooks/use-chat-scroll';
 
 interface ChatMessagesProps {
     name: string;
@@ -54,7 +55,15 @@ function ChatMessages({
             paramKey,
             paramValue,
         });
+
     useChatSocket({ queryKey, addKey, updateKey });
+    useChatScroll({
+        chatRef,
+        bottomRef,
+        loadMore: fetchNextPage,
+        shouldLoadMode: !isFetchingNextPage && !!hasNextPage,
+        count: data?.pages?.[0].items.length,
+    });
 
     if (status === 'pending') {
         return (
