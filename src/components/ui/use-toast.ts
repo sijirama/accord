@@ -1,5 +1,4 @@
-// Inspired by react-hot-toast library
-//import * as React from "react"
+"use client"
 import { useState , useEffect } from "react"
 
 import type {
