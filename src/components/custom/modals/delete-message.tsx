@@ -46,7 +46,7 @@ export default function DeleteMessageModal() {
                     <DialogDescription>
                         Do you really want to delete this message?
                         <div className="font-semibold my-1 bg-zinc-900/60 py-2  text-indigo-500">
-                            "{data.content}"
+                            &quot;{data.content}&quot;
                         </div>
                     </DialogDescription>
                 </DialogHeader>

@@ -96,8 +96,8 @@ export default function MemberModal() {
                 <DialogHeader>
                     <DialogTitle>Manage Members</DialogTitle>
                     <DialogDescription>
-                        Oh Anon, i see you, you don't trust your server members,
-                        well have a better look here.
+                        Oh Anon, i see you, you don&apos;t trust your server
+                        members, well have a better look here.
                     </DialogDescription>
                 </DialogHeader>
                 <div>
