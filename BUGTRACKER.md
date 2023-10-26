@@ -3,3 +3,5 @@
 -   /api/members/memberId isn't returning anything
 
 - your POST request to make a new message is not doing anything bruh
+
+- when deploying add a new env to your prod variables called NEXT_PUBLIC_SITE_URL and add your domain there.
