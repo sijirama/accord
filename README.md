@@ -1,14 +1,8 @@
-## Getting Started
-
+## Accord 
 First, run the development server:
+very buggy, will spend more time updating and fixing things
 
-```bash
-npm run dev
-# or
-pnpm dev
-```
-
-##### Yad Development & Testing Server.
+##### Accord Development & Testing Server.
 paste in a browser.
 ```
 https://yad-chi.vercel.app/invite/740e45a1-2877-4f05-ba9b-effa7805b2b5
