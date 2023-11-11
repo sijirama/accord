@@ -1,20 +1,21 @@
-## Accord
+# Accord
 
 > Discord variant currently working on.
 
-First, run the development server:
-very buggy, will spend more time updating and fixing things
+Simple Web application for creating server and chatting with your friends.
 
 --------------------------------------------------------------------------------
-To try out accord and create a server with your friends.
-paste in a browser.
+
+To try out Accord and create a server with your friends.
+
+Paste in a browser.
 
 ```
-https://accordingly.vercel.app/
+https://accordingly.vercel.app
 
 ```
 
-### Accord Development & Testing Server
+## Accord Development & Testing Server
 
 To access the development server i use for testing.
 
