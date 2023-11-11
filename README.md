@@ -1,27 +1,21 @@
 # Accord
 
-> Discord variant currently working on.
+Accord is a Discord variant currently in development, offering a simple web application for creating servers and chatting with friends.
 
-Simple Web application for creating server and chatting with your friends.
+## Try Accord Now!
 
---------------------------------------------------------------------------------
-
-To try out Accord and create a server with your friends.
-
-Paste in a browser.
+To experience Accord and create a server with your friends, simply paste the following link into your browser:
 
 ```
 https://accordingly.vercel.app
-
 ```
 
 ## Accord Development & Testing Server
 
-To access the development server i use for testing.
-
-paste in a browser.
+Explore the development server used for testing by pasting the following link into your browser:
 
 ```
 https://accordingly.vercel.app/invite/740e45a1-2877-4f05-ba9b-effa7805b2b5
-
 ```
+
+Feel free to reach out if you have any questions or feedback!
