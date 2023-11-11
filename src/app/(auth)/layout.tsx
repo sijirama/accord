@@ -2,7 +2,7 @@ import '@/app/globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: "Authentication for Yad",
+    title: "Authentication for Accord",
     description: 'Identify yourself boy!',
 }
 

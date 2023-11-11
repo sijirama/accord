@@ -14,7 +14,7 @@ import { QueryProvider } from '@/components/providers/query-provider';
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: "Yad - this isn't your usual discord clone",
+    title: "Accord - this isn't your usual discord clone",
     description: 'Created by Sijirama!',
 };
 
