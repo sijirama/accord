@@ -5,7 +5,18 @@
 First, run the development server:
 very buggy, will spend more time updating and fixing things
 
-##### Accord Development & Testing Server.
+--------------------------------------------------------------------------------
+To try out accord and create a server with your friends.
+paste in a browser.
+
+```
+https://accordingly.vercel.app/
+
+```
+
+### Accord Development & Testing Server
+
+To access the development server i use for testing.
 
 paste in a browser.
 
