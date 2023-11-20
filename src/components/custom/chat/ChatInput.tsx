@@ -11,6 +11,7 @@ import { Plus } from 'lucide-react';
 import { useModal } from '@/hooks/use-modal-store';
 import EmojiPicker from '../EmojiPicker';
 import { useRouter } from 'next/navigation';
+import { toast } from '@/components/ui/use-toast';
 
 interface ChatInputProps {
     apiUrl: string;
@@ -44,6 +45,9 @@ function ChatInput({ apiUrl, query, name, type }: ChatInputProps) {
             router.refresh();
         } catch (error) {
             console.log(error);
+            toast({
+                description: 'Failed to send message',
+            });
         } finally {
             form.reset();
         }
