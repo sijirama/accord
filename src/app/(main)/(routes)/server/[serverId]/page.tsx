@@ -38,7 +38,11 @@ export default async function ServerPage({ params }: ServerIdPageProps) {
     });
     const initialChannel = server?.channels[0];
     if (initialChannel?.name === 'general') {
-        return null;
+        return (
+            <section className='flex justify-center items-center'>
+                <p>Welcome to the {server?.name} server.</p>
+            </section>
+        );
     }
     return redirect(
         `/server/${params.serverId}/channels/${initialChannel?.id}`
