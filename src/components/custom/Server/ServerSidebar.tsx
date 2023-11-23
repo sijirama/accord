@@ -80,7 +80,7 @@ async function ServerSidebar({ serverId }: Props) {
 
     //<ServerSecrion />
     return (
-        <nav className="flex flex-col w-full h-full text-primary dark:bg-slate-900 bg-slate-400">
+        <nav className="flex flex-col w-full h-full text-slate-950 dark:text-primary dark:bg-slate-900 bg-slate-400">
             <ServerHeader server={server} role={role} />
             <ScrollArea className="flex-1 px-3">
                 <div className="mt-2">
