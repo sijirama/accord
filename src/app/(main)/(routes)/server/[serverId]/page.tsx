@@ -1,6 +1,7 @@
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
 import { redirectToSignIn } from '@clerk/nextjs';
+import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
@@ -39,18 +40,15 @@ export default async function ServerPage({ params }: ServerIdPageProps) {
     const initialChannel = server?.channels[0];
     if (initialChannel?.name === 'general') {
         return (
-            <section className='flex justify-center items-center'>
-                <p>Welcome to the {server?.name} server.</p>
+            <section className="flex justify-center items-center h-full flex-col">
+                <div className="w-1/2 lg:w-1/3 rounded-3xl">
+                    <img src={server?.imageurl} className="rounded-3xl" />
+                </div>
+                <p className='-tracking-wider font-bold'>Welcome to the {server?.name}</p>
             </section>
         );
     }
     return redirect(
         `/server/${params.serverId}/channels/${initialChannel?.id}`
-    );
-
-    return (
-        <section className="flex justify-center items-center">
-            <p>Welcome to {server?.name}</p>
-        </section>
     );
 }
