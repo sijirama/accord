@@ -76,8 +76,8 @@ export default function InitialModal() {
             window.location.reload();
         } catch (error) {
             console.log(error);
-        }finally {
-            setIsLoading(false)
+        } finally {
+            setIsLoading(false);
         }
     };
 

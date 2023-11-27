@@ -51,7 +51,7 @@ export default function CreateServerModal() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: 'Octavius The Server.',
-            imageUrl:" "
+            imageUrl: ' ',
         },
     });
 
@@ -62,12 +62,21 @@ export default function CreateServerModal() {
         //console.log(values);
         try {
             setIsLoading(true);
-            if (!values.name || !values.imageUrl) {
+            if (!values.name) {
                 toast({
-                    description: 'Something is missging from your input.',
+                    description: 'Server name is missging from your input.',
                 });
                 return;
             }
+            if (
+                !values.imageUrl ||
+                values.imageUrl == '' ||
+                values.imageUrl == ' '
+            ) {
+                values.imageUrl =
+                    'https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+            }
+
             await axios.post('/api/servers', values);
             form.reset();
             router.refresh();
@@ -78,7 +87,7 @@ export default function CreateServerModal() {
             setIsLoading(false);
         }
     };
-    
+
     const loading = form.formState.isSubmitting || isLoading; // while the form is submitting
     const handleClose = () => {
         // what happens when the modal closes
