@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import {
     Dialog,
@@ -7,7 +7,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog';
 
 import {
     Form,
@@ -15,62 +15,71 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
-} from "@/components/ui/form"
+    FormMessage,
+} from '@/components/ui/form';
 
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import axios from "axios"
-import { useForm } from "react-hook-form"
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
 
-import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
-import { FileUpload } from "../fileUpload"
-import { useRouter } from "next/navigation"
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import { FileUpload } from '../fileUpload';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
     name: z.string().min(3, {
-        message: "Server name is required"
+        message: 'Server name is required',
     }),
     imageUrl: z.string().min(1, {
-        message: "Server name is required"
+        message: 'Server name is required',
     }),
-
-})
+});
 
 export default function InitialModal() {
-
     //const [isMounted, setIsMounted] = useState(false) // hydration error fix
 
     // useEffect(() => {// hydration error fix
     //     setIsMounted(true)
     // }, [])
 
-    const router = useRouter()
-
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "Octavius The Server",
-            imageUrl: " "
-        }
-    })
+            name: 'Octavius an Server',
+            imageUrl: ' ',
+        },
+    });
 
-    const loading = form.formState.isSubmitting
+    const loading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
         try {
-            await axios.post("/api/servers", values)
-            form.reset()
-            router.refresh()
-            window.location.reload()
+            setIsLoading(true);
+            if (
+                !values.imageUrl ||
+                values.imageUrl == '' ||
+                values.imageUrl == ' '
+            ) {
+                values.imageUrl =
+                    'https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+            }
+            console.log(values.imageUrl, 'tHE SUBMITTED VALUES ARE NOW');
+            await axios.post('/api/servers', values);
+            form.reset();
+            router.refresh();
+            window.location.reload();
         } catch (error) {
-            console.log(error)
+            console.log(error);
+        }finally {
+            setIsLoading(false)
         }
-    }
+    };
 
     // if (isMounted) {// hydration error fix
     //     return null;
@@ -78,15 +87,19 @@ export default function InitialModal() {
 
     return (
         <Dialog open>
-            <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden" >
+            <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
                     <DialogTitle>Customize your server Anon!</DialogTitle>
                     <DialogDescription>
-                        Give your server a personality with a name and an image, you can always change it later.
+                        Give your server a personality with a name and an image,
+                        you can always change it later.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 w-full ">
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-5 w-full "
+                    >
                         <div className="space-y-5">
                             <FormField
                                 control={form.control}
@@ -125,11 +138,17 @@ export default function InitialModal() {
                             ></FormField>
                         </div>
                         <DialogFooter>
-                            <Button className="font-bold" variant="primary">Create</Button>
+                            <Button
+                                className="font-bold"
+                                disabled={loading}
+                                variant="primary"
+                            >
+                                Create
+                            </Button>
                         </DialogFooter>
                     </form>
                 </Form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

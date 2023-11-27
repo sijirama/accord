@@ -16,16 +16,13 @@ export const currentProfile = async () => {
             },
         });
     } catch (error) {
-        console.error(
-            error,
-            ': Error in Current Profile Function!'
-        );
+        console.error(error, ': Error in Current Profile Function!');
     }
 
     if (!profile) {
-        toast({
-            description: 'No current profile found',
-        });
+        //     toast({
+        //         description: 'No current profile found',
+        //     });
     }
 
     return profile;

@@ -29,38 +29,39 @@ import { FileUpload } from '../fileUpload';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/use-modal-store';
 import { toast } from '@/components/ui/use-toast';
+import { useState } from 'react';
 
 const formSchema = z.object({
     name: z.string().min(3, {
         message: 'Server name is required',
     }),
     imageUrl: z.string().min(1, {
-        message: 'Server name is required',
+        message: 'Server image is required',
     }),
 });
 
 export default function CreateServerModal() {
     const { isOpen, onClose, type } = useModal(); // hook to handle modal management with zustand
     const isModalOpen = isOpen && type === 'createServer'; // is it open ? is to create a server ?
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter(); // initialize router
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: 'Octavius The Server',
-            imageUrl: ' ',
+            name: 'Octavius The Server.',
+            imageUrl:" "
         },
     });
-
-    const loading = form.formState.isSubmitting; // while the form is submitting
 
     const onSubmit = async (
         // what happens when we submit our create server form
         values: z.infer<typeof formSchema>
     ) => {
-        console.log(values);
+        //console.log(values);
         try {
+            setIsLoading(true);
             if (!values.name || !values.imageUrl) {
                 toast({
                     description: 'Something is missging from your input.',
@@ -73,9 +74,12 @@ export default function CreateServerModal() {
             onClose();
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     };
-
+    
+    const loading = form.formState.isSubmitting || isLoading; // while the form is submitting
     const handleClose = () => {
         // what happens when the modal closes
         form.reset();
@@ -136,7 +140,7 @@ export default function CreateServerModal() {
                         </div>
                         <DialogFooter>
                             <Button
-                                className="font-bold"
+                                className="font-bold disabled:bg-slate-300"
                                 variant="primary"
                                 disabled={loading}
                             >

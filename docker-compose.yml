@@ -15,3 +15,9 @@ services:
 
 volumes:
     pgdata: {}
+      
+
+
+
+
+#NOTE: to connect to psql / docker exec -it db psql -U postgres -W postgres
