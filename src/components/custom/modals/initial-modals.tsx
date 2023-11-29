@@ -51,7 +51,7 @@ export default function InitialModal() {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: 'Octavius an Server',
+            name: 'My First Server.',
             imageUrl: ' ',
         },
     });
@@ -89,10 +89,10 @@ export default function InitialModal() {
         <Dialog open>
             <DialogContent className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50 overflow-hidden">
                 <DialogHeader>
-                    <DialogTitle>Customize your server Anon!</DialogTitle>
+                    <DialogTitle>Welcome to Accord!</DialogTitle>
                     <DialogDescription>
-                        Give your server a personality with a name and an image,
-                        you can always change it later.
+                        Why don't you get startted by creating a server for you
+                        and your friends.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
