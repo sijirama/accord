@@ -1,7 +1,6 @@
-import { currentUser, redirectToSignIn } from '@clerk/nextjs';
+import { currentUser, redirectToSignIn, redirectToSignUp } from '@clerk/nextjs';
 import { type Profile } from '@prisma/client';
 import { db } from './db';
-import { redirectToSignUp } from '@clerk/nextjs';
 
 export async function initialProfile(): Promise<Profile> {
     const user = await currentUser(); // get the current user
