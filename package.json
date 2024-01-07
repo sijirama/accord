@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "docker compose up -d && next dev",
         "dev:end": "docker compose down",
-        "build": "prisma db push && prisma generate && next build",
+        "build": "prisma generate && next build",
         "start": "next start",
         "lint": "next lint",
         "db:generate": "prisma generate",
