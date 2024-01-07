@@ -25,6 +25,5 @@ export const currentProfilePages = async (req: NextApiRequest) => {
             description: 'No current profile found',
         });
     }
-
     return profile;
 };
